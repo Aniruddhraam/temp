@@ -13,6 +13,10 @@ elif command -v apt &> /dev/null; then
   apt-get update && apt-get install -y dnscrypt-proxy
 fi
 
+echo "[+] Creating cache directory and setting permissions..."
+mkdir -p /var/cache/dnscrypt-proxy
+chown dnscrypt-proxy:dnscrypt-proxy /var/cache/dnscrypt-proxy 2>/dev/null || chown _dnscrypt-proxy:_dnscrypt-proxy /var/cache/dnscrypt-proxy 2>/dev/null || true
+
 echo "[+] Restoring configuration backup..."
 if [ -f "dnscrypt-odoh-backup.tar.gz" ]; then
   tar -xzvf dnscrypt-odoh-backup.tar.gz -C /
