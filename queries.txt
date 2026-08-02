@@ -1,0 +1,5 @@
+
+example.com A
+google.com AAAA
+github.com MX
+wikipedia.org TXT
