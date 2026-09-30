@@ -30,3 +30,16 @@ Backups live in `/var/lib/odoh-migration/<timestamp>`; log in `/var/log/odoh-mig
   stage step (safely). `ignore_system_dns = true`, so there is no fallback to the network's DNS.
 - Captive portals, `.lan`/`.local` and the network search domain are forwarded to the DHCP DNS by
   `/etc/NetworkManager/dispatcher.d/99-captive-dns`.
+
+## One-word DNS switching for captive portals
+Captive networks (e.g. a university Wi-Fi login) block ODoH/relay traffic until you authenticate. Add
+`zsh-dns-toggle.zsh` to your shell (`source` it from `~/.zshrc`) to get:
+
+| Command | Effect |
+|---|---|
+| `dnsplain` | Point `/etc/resolv.conf` at the DHCP-provided DNS, then open `http://neverssl.com` to log in |
+| `dnsodoh` | Back to dnscrypt-proxy (ODoH); starts the service if needed and checks that lookups work |
+| `dnsstatus` | Show the active mode and time a lookup |
+
+dnscrypt-proxy keeps running in both modes; only `/etc/resolv.conf` changes. While in plain mode the network
+can see your lookups, so switch back once logged in.
